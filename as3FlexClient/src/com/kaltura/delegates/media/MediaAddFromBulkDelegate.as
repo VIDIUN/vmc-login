@@ -1,12 +1,12 @@
-package com.kaltura.delegates.media
+package com.vidiun.delegates.media
 {
 	import flash.utils.getDefinitionByName;
-	import com.kaltura.config.KalturaConfig;
-	import com.kaltura.net.KalturaCall;
-	import com.kaltura.delegates.WebDelegateBase;
+	import com.vidiun.config.VidiunConfig;
+	import com.vidiun.net.VidiunCall;
+	import com.vidiun.delegates.WebDelegateBase;
 	public class MediaAddFromBulkDelegate extends WebDelegateBase
 	{
-		public function MediaAddFromBulkDelegate(call:KalturaCall, config:KalturaConfig)
+		public function MediaAddFromBulkDelegate(call:VidiunCall, config:VidiunConfig)
 		{
 			super(call, config);
 		}

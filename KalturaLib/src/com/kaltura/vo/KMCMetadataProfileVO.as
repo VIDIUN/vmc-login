@@ -1,9 +1,9 @@
 /*
-This file is part of the Kaltura Collaborative Media Suite which allows users
+This file is part of the Vidiun Collaborative Media Suite which allows users
 to do with audio, video, and animation what Wiki platfroms allow them to do with
 text.
 
-Copyright (C) 2006-2008  Kaltura Inc.
+Copyright (C) 2006-2008  Vidiun Inc.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 @ignore
 */
-package com.kaltura.vo
+package com.vidiun.vo
 {
 	import com.adobe.cairngorm.vo.IValueObject;
 	
@@ -32,19 +32,19 @@ package com.kaltura.vo
 	 * 
 	 */
 	[Bindable]
-	public class KMCMetadataProfileVO implements IValueObject
+	public class VMCMetadataProfileVO implements IValueObject
 	{
-		public var profile:KalturaMetadataProfile;
+		public var profile:VidiunMetadataProfile;
 		public var metadataFieldVOArray:ArrayCollection = new ArrayCollection();
 		//represents the xsd from the profile, in an XML representation
 		public var xsd:XML;
 		public var viewXML:XML;
 		
 		/**
-		 *  Constructs a new KMCMetadataProfileVO class
+		 *  Constructs a new VMCMetadataProfileVO class
 		 * 
 		 */			
-		public function KMCMetadataProfileVO ():void
+		public function VMCMetadataProfileVO ():void
 		{
 		}
 

@@ -1,6 +1,6 @@
-package com.kaltura.utils
+package com.vidiun.utils
 {
-	import com.kaltura.dataStructures.HashMap;
+	import com.vidiun.dataStructures.HashMap;
 	
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
@@ -13,26 +13,26 @@ package com.kaltura.utils
 	 * 
 	 * 
 	 */
-	public class KLanguageUtil
+	public class VLanguageUtil
 	{
-		private static var _instance:KLanguageUtil = null;
+		private static var _instance:VLanguageUtil = null;
 		private var languagesMap:HashMap = new HashMap();
 		private var _languagesArr:ArrayCollection = new ArrayCollection();
 		
 		[ResourceBundle("languages")]
 		private static var rb:ResourceBundle;
 		
-		public function KLanguageUtil(enforcer:Enforcer)
+		public function VLanguageUtil(enforcer:Enforcer)
 		{
 			initLanguagesArr();
 			initlanguagesMap();
 		}
 		
-		public static function get instance():KLanguageUtil
+		public static function get instance():VLanguageUtil
 		{
 			if(_instance == null)
 			{
-				_instance = new KLanguageUtil(new Enforcer());
+				_instance = new VLanguageUtil(new Enforcer());
 			}
 			
 			return _instance;

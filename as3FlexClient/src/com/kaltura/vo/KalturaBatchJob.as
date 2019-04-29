@@ -1,11 +1,11 @@
-package com.kaltura.vo
+package com.vidiun.vo
 {
-	import com.kaltura.vo.KalturaJobData;
+	import com.vidiun.vo.VidiunJobData;
 
-	import com.kaltura.vo.KalturaBaseJob;
+	import com.vidiun.vo.VidiunBaseJob;
 
 	[Bindable]
-	public dynamic class KalturaBatchJob extends KalturaBaseJob
+	public dynamic class VidiunBatchJob extends VidiunBaseJob
 	{
 		public var entryId : String;
 
@@ -17,7 +17,7 @@ package com.kaltura.vo
 
 		public var onStressDivertTo : int = int.MIN_VALUE;
 
-		public var data : KalturaJobData;
+		public var data : VidiunJobData;
 
 		public var status : int = int.MIN_VALUE;
 

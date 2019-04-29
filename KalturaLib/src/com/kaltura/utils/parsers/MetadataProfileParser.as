@@ -1,9 +1,9 @@
-package com.kaltura.utils.parsers
+package com.vidiun.utils.parsers
 {
-	import com.kaltura.base.types.MetadataCustomFieldMaxOcuursTypes;
-	import com.kaltura.base.types.MetadataCustomFieldTypes;
-	import com.kaltura.base.types.XSDConstants;
-	import com.kaltura.vo.MetadataFieldVO;
+	import com.vidiun.base.types.MetadataCustomFieldMaxOcuursTypes;
+	import com.vidiun.base.types.MetadataCustomFieldTypes;
+	import com.vidiun.base.types.XSDConstants;
+	import com.vidiun.vo.MetadataFieldVO;
 	
 	import mx.collections.ArrayCollection;
 	import mx.resources.ResourceManager;

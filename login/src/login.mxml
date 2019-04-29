@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" layout="absolute"
-				preloader="com.kaltura.preloaders.KmcPreloader" backgroundColor="#034F57" horizontalScrollPolicy="off"
+				preloader="com.vidiun.preloaders.VmcPreloader" backgroundColor="#034F57" horizontalScrollPolicy="off"
 				verticalScrollPolicy="off" backgroundAlpha="0" backgroundGradientAlphas="0,0"
-				xmlns:components="com.pfp.components.*" xmlns:text="com.kaltura.controls.text.*" xmlns:validators="com.kaltura.validators.*">
-	<mx:Style source="assets/kaltura.css"/>
+				xmlns:components="com.pfp.components.*" xmlns:text="com.vidiun.controls.text.*" xmlns:validators="com.vidiun.validators.*">
+	<mx:Style source="assets/vidiun.css"/>
 
 	<mx:Metadata>
 		[ResourceBundle("login")]
@@ -11,25 +11,25 @@
 
 	<mx:Script>
 		<![CDATA[
-			import com.kaltura.KalturaClient;
-			import com.kaltura.analytics.GoogleAnalyticsConsts;
-			import com.kaltura.analytics.GoogleAnalyticsTracker;
-			import com.kaltura.analytics.KAnalyticsTracker;
-			import com.kaltura.commands.MultiRequest;
-			import com.kaltura.commands.adminUser.AdminUserSetInitialPassword;
-			import com.kaltura.commands.adminUser.AdminUserUpdatePassword;
-			import com.kaltura.commands.permission.PermissionList;
-			import com.kaltura.commands.user.UserGetByLoginId;
-			import com.kaltura.commands.user.UserLoginByLoginId;
-			import com.kaltura.commands.user.UserResetPassword;
-			import com.kaltura.config.KalturaConfig;
-			import com.kaltura.events.KalturaEvent;
-			import com.kaltura.types.KalturaPermissionStatus;
-			import com.kaltura.types.KalturaStatsKmcEventType;
-			import com.kaltura.utils.KUtils;
-			import com.kaltura.vo.KalturaPermissionFilter;
-			import com.kaltura.vo.KalturaPermissionListResponse;
-			import com.kaltura.validators.EmailValidator;
+			import com.vidiun.VidiunClient;
+			import com.vidiun.analytics.GoogleAnalyticsConsts;
+			import com.vidiun.analytics.GoogleAnalyticsTracker;
+			import com.vidiun.analytics.VAnalyticsTracker;
+			import com.vidiun.commands.MultiRequest;
+			import com.vidiun.commands.adminUser.AdminUserSetInitialPassword;
+			import com.vidiun.commands.adminUser.AdminUserUpdatePassword;
+			import com.vidiun.commands.permission.PermissionList;
+			import com.vidiun.commands.user.UserGetByLoginId;
+			import com.vidiun.commands.user.UserLoginByLoginId;
+			import com.vidiun.commands.user.UserResetPassword;
+			import com.vidiun.config.VidiunConfig;
+			import com.vidiun.events.VidiunEvent;
+			import com.vidiun.types.VidiunPermissionStatus;
+			import com.vidiun.types.VidiunStatsVmcEventType;
+			import com.vidiun.utils.VUtils;
+			import com.vidiun.vo.VidiunPermissionFilter;
+			import com.vidiun.vo.VidiunPermissionListResponse;
+			import com.vidiun.validators.EmailValidator;
 			
 			import mx.controls.Alert;
 			import mx.events.ValidationResultEvent;
@@ -71,7 +71,7 @@
 			/**
 			 * client for posting API_v3 calls
 			 * */
-			private var _kc:KalturaClient;
+			private var _vc:VidiunClient;
 
 			[Bindable]
 			/**
@@ -83,7 +83,7 @@
 			/**
 			 * dommain for partnerservices2 calls
 			 * */
-			private var _domain:String = "www.kaltura.com";
+			private var _domain:String = "www.vidiun.com";
 
 			/**
 			 * users coming form registration email will have a hash
@@ -111,14 +111,14 @@
 				_protocol = getLoadingProtocol();
 
 				// create client for API_v3 calls
-				var configuration:KalturaConfig = new KalturaConfig();
+				var configuration:VidiunConfig = new VidiunConfig();
 				configuration.protocol = _protocol;
-				configuration.domain = KUtils.hostFromCode(parameters.host);
+				configuration.domain = VUtils.hostFromCode(parameters.host);
 				configuration.srvUrl = parameters.srvurl;
-				_kc = new KalturaClient(configuration);
+				_vc = new VidiunClient(configuration);
 
 				// add context menu item
-				var item:ContextMenuItem = new ContextMenuItem("KMC Login Version " + VERSION);
+				var item:ContextMenuItem = new ContextMenuItem("VMC Login Version " + VERSION);
 				contextMenu.customItems.push(item);
 
 				// app parameters:
@@ -128,7 +128,7 @@
 					if (URLUtil.isHttpURL(String(parameters.host)) || URLUtil.isHttpsURL(String(parameters.host)))
 						_domain = parameters.host;
 					else
-						_domain = KUtils.hostFromCode(parameters.host);
+						_domain = VUtils.hostFromCode(parameters.host);
 				}
 
 				if (parameters.loginF)
@@ -145,7 +145,7 @@
 
 				setLocaleByParams();
 
-				_loginSO = SharedObject.getLocal("KMCuser");
+				_loginSO = SharedObject.getLocal("VMCuser");
 				if (_loginSO.data.loginName) {
 					// assume this happens after email.creationComplete 
 					email.text = _loginSO.data.loginName; 
@@ -224,45 +224,45 @@
 
 				var mr:MultiRequest = new MultiRequest();
 
-				//First request to login will return the KS
+				//First request to login will return the VS
 				var ulblId:UserLoginByLoginId = new UserLoginByLoginId(params.email, params.password, int.MIN_VALUE, 86400/*24 hrs*/, "disableentitlement");
 
-				//The second call will return the user data needed for the KMC
+				//The second call will return the user data needed for the VMC
 				var ugblId:UserGetByLoginId = new UserGetByLoginId(params.email);
 				
 				mr.addAction(ulblId);
 				mr.addAction(ugblId);
-				mr.addRequestParam("2:ks", "{1:result}");
+				mr.addRequestParam("2:vs", "{1:result}");
 				
 				//the third call will check if username should be remembered
 				if (remember.selected) {
-					var filter:KalturaPermissionFilter = new KalturaPermissionFilter();
-					filter.statusEqual = KalturaPermissionStatus.ACTIVE;
+					var filter:VidiunPermissionFilter = new VidiunPermissionFilter();
+					filter.statusEqual = VidiunPermissionStatus.ACTIVE;
 					filter.nameEqual = 'FEATURE_DISABLE_REMEMBER_ME';
 					var permst:PermissionList = new PermissionList(filter);
 					mr.addAction(permst);
-					mr.addRequestParam("3:ks", "{1:result}");
+					mr.addRequestParam("3:vs", "{1:result}");
 				}
 
-				mr.addEventListener(KalturaEvent.COMPLETE, onLoginResult);
-				mr.addEventListener(KalturaEvent.FAILED, onLoginFault);
+				mr.addEventListener(VidiunEvent.COMPLETE, onLoginResult);
+				mr.addEventListener(VidiunEvent.FAILED, onLoginFault);
 
-				_kc.post(mr);
+				_vc.post(mr);
 			}
 
 
 			/**
-			 * On a successful login extract the ks an initiate the KMC via JS else alert
+			 * On a successful login extract the vs an initiate the VMC via JS else alert
 			 * */
-			private function onLoginResult(event:KalturaEvent):void {
+			private function onLoginResult(event:VidiunEvent):void {
 				var errorXml:XML = new XML(event.data[0]);
 
 				if (errorXml && errorXml.hasOwnProperty('error')) {
 					// see what went wrong
 					var errCode:String = errorXml.error.code;
 					if (errCode == "USER_NOT_FOUND" || errCode == "USER_WRONG_PASSWORD") {
-						// show ADMIN_KUSER_NOT_FOUND eror message
-						Alert.show(resourceManager.getString('login', "ADMIN_KUSER_NOT_FOUND"), resourceManager.getString('login', "invalidLogin"));
+						// show ADMIN_VUSER_NOT_FOUND eror message
+						Alert.show(resourceManager.getString('login', "ADMIN_VUSER_NOT_FOUND"), resourceManager.getString('login', "invalidLogin"));
 					}
 					else if (errCode == "LOGIN_RETRIES_EXCEEDED") {
 						// show LOGIN_RETRIES_EXCEEDED eror message
@@ -287,17 +287,17 @@
 					// Send notification to Google Analytics
 					if (_urchinNumber) {
 						var ga:GoogleAnalyticsTracker = GoogleAnalyticsTracker.getInstance();
-						ga.init("", "", this, "KMC_ANDROMEDA/Login", _urchinNumber, "AS3", Application.application.parameters.gaDebug == "true" ? true : false);
+						ga.init("", "", this, "VMC_ANDROMEDA/Login", _urchinNumber, "AS3", Application.application.parameters.gaDebug == "true" ? true : false);
 						ga.sendToGA(GoogleAnalyticsConsts.LOGIN);
 					}
-					// Send notification to Kaltura
-					var ka:KAnalyticsTracker = KAnalyticsTracker.getInstance();
-					ka.init(_kc, "Login", VERSION, "");
-					ka.sendEvent(KalturaStatsKmcEventType.LOGIN, "pagingInEntryTable>Manage");
+					// Send notification to Vidiun
+					var va:VAnalyticsTracker = VAnalyticsTracker.getInstance();
+					va.init(_vc, "Login", VERSION, "");
+					va.sendEvent(VidiunStatsVmcEventType.LOGIN, "pagingInEntryTable>Manage");
 
 					// if we checked for rememberme permission and we have a saved value
 					if (event.data.length > 2 && _loginSO.data.loginName){
-						if ((event.data[2] as KalturaPermissionListResponse).totalCount > 0) {
+						if ((event.data[2] as VidiunPermissionListResponse).totalCount > 0) {
 							// we have an active "disable remember me"
 							_loginSO.clear();
 						}
@@ -310,7 +310,7 @@
 			/**
 			 * If we failed to Login Alert to the user the Server Messege
 			 * */
-			private function onLoginFault(event:KalturaEvent):void {
+			private function onLoginFault(event:VidiunEvent):void {
 				Alert.show(event.error.errorMsg, resourceManager.getString('login', 'errorOccurred'));
 			}
 
@@ -335,9 +335,9 @@
 				_relevantPwd = tf1.text;
 				// post request
 				var ausip:AdminUserSetInitialPassword = new AdminUserSetInitialPassword(_hashKey, tf1.text);
-				ausip.addEventListener(KalturaEvent.COMPLETE, onSetInitialResult);
-				ausip.addEventListener(KalturaEvent.FAILED, faultHandlerV3_a);
-				_kc.post(ausip);
+				ausip.addEventListener(VidiunEvent.COMPLETE, onSetInitialResult);
+				ausip.addEventListener(VidiunEvent.FAILED, faultHandlerV3_a);
+				_vc.post(ausip);
 			}
 
 
@@ -346,9 +346,9 @@
 			/**
 			 * log the login event and call relevant JS function
 			 * */
-			private function loginF(partner_id:String, subp_id:String, uid:String, ks:String, screenName:String, uemail:String):void {
-				// never ask JS to "remeber me" because KS is always created for 24 hours
-				ExternalInterface.call(_loginF, false, partner_id, subp_id, uid, ks, screenName, uemail);
+			private function loginF(partner_id:String, subp_id:String, uid:String, vs:String, screenName:String, uemail:String):void {
+				// never ask JS to "remeber me" because VS is always created for 24 hours
+				ExternalInterface.call(_loginF, false, partner_id, subp_id, uid, vs, screenName, uemail);
 
 			}
 
@@ -387,9 +387,9 @@
 
 				_relevantEmail = tf.text;
 				var resetPwd:UserResetPassword = new UserResetPassword(_relevantEmail);
-				resetPwd.addEventListener(KalturaEvent.COMPLETE, onResetPassResult);
-				resetPwd.addEventListener(KalturaEvent.FAILED, faultHandlerV3_a);
-				_kc.post(resetPwd);
+				resetPwd.addEventListener(VidiunEvent.COMPLETE, onResetPassResult);
+				resetPwd.addEventListener(VidiunEvent.FAILED, faultHandlerV3_a);
+				_vc.post(resetPwd);
 			}
 
 
@@ -417,16 +417,16 @@
 				_relevantEmail = email.text;
 				_relevantPwd = pwd3.text;
 				var auup:AdminUserUpdatePassword = new AdminUserUpdatePassword(email.text, pwd5.text, '', pwd3.text);
-				auup.addEventListener(KalturaEvent.COMPLETE, onUpdateResult);
-				auup.addEventListener(KalturaEvent.FAILED, faultHandlerV3_a);
-				_kc.post(auup);
+				auup.addEventListener(VidiunEvent.COMPLETE, onUpdateResult);
+				auup.addEventListener(VidiunEvent.FAILED, faultHandlerV3_a);
+				_vc.post(auup);
 			}
 
 
 			/**
 			 * login using saved data
 			 * */
-			protected function onUpdateResult(event:KalturaEvent):void {
+			protected function onUpdateResult(event:VidiunEvent):void {
 				// we assume the user entered his email when he first logged in, 
 				// before being asked to update pwd, and use the pwd sent in update.
 				adminLogin(_relevantEmail, _relevantPwd);
@@ -437,13 +437,13 @@
 			 * set intial password successfull </br>
 			 * show normal login panel
 			 * */
-			protected function onSetInitialResult(event:KalturaEvent):void {
+			protected function onSetInitialResult(event:VidiunEvent):void {
 				Alert.show(ResourceManager.getInstance().getString('login', 'pleaseLogin'));
 				panels.selectedSide = "Front";
 			}
 
 
-			private function faultHandlerV3_a(event:KalturaEvent):void {
+			private function faultHandlerV3_a(event:VidiunEvent):void {
 				faultHandlerV3(event, parameters.displayErrorFromServer == "true");
 			}
 
@@ -451,7 +451,7 @@
 			 * General fault handler for API_v3 <br>
 			 * shows a message from locale, or server.
 			 * */
-			private function faultHandlerV3(event:KalturaEvent, displayErrorFromServer:Boolean = false):void {
+			private function faultHandlerV3(event:VidiunEvent, displayErrorFromServer:Boolean = false):void {
 				var s:String = ResourceManager.getInstance().getString('login', event.error.errorCode);
 				if (s == null || displayErrorFromServer) {
 					s = event.error.errorMsg;
@@ -474,7 +474,7 @@
 			/**
 			 * tell the user if password reset went ok or not.
 			 * */
-			private function onResetPassResult(event:KalturaEvent):void {
+			private function onResetPassResult(event:VidiunEvent):void {
 				if (event.error!= null)
 					Alert.show(event.error.errorMsg, resourceManager.getString('login', 'errorOccurred'));
 				else

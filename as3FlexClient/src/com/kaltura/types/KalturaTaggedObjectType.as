@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,9 +25,9 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.types
+package com.vidiun.types
 {
-	public class KalturaTaggedObjectType
+	public class VidiunTaggedObjectType
 	{
 		public static const ENTRY : String = '1';
 		public static const CATEGORY : String = '2';
@@ -36,7 +36,7 @@ package com.kaltura.types
 		public static const THUMBASSET : String = '5';
 		public static const UICONF : String = '6';
 		public static const CONVERSIONPROFILE2 : String = '7';
-		public static const KUSER : String = '8';
+		public static const VUSER : String = '8';
 		public static const PERMISSION : String = '9';
 		public static const PERMISSIONITEM : String = '10';
 		public static const USERROLE : String = '11';

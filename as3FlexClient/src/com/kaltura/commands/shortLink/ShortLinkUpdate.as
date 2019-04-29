@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,20 +25,20 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.commands.shortLink
+package com.vidiun.commands.shortLink
 {
-	import com.kaltura.vo.KalturaShortLink;
-	import com.kaltura.delegates.shortLink.ShortLinkUpdateDelegate;
-	import com.kaltura.net.KalturaCall;
+	import com.vidiun.vo.VidiunShortLink;
+	import com.vidiun.delegates.shortLink.ShortLinkUpdateDelegate;
+	import com.vidiun.net.VidiunCall;
 
-	public class ShortLinkUpdate extends KalturaCall
+	public class ShortLinkUpdate extends VidiunCall
 	{
 		public var filterFields : String;
 		/**
 		 * @param id String
-		 * @param shortLink KalturaShortLink
+		 * @param shortLink VidiunShortLink
 		 **/
-		public function ShortLinkUpdate( id : String,shortLink : KalturaShortLink )
+		public function ShortLinkUpdate( id : String,shortLink : VidiunShortLink )
 		{
 			service= 'shortlink_shortlink';
 			action= 'update';
@@ -48,7 +48,7 @@ package com.kaltura.commands.shortLink
 			var keyValArr : Array = new Array();
 			keyArr.push('id');
 			valueArr.push(id);
- 			keyValArr = kalturaObject2Arrays(shortLink, 'shortLink');
+ 			keyValArr = vidiunObject2Arrays(shortLink, 'shortLink');
 			keyArr = keyArr.concat(keyValArr[0]);
 			valueArr = valueArr.concat(keyValArr[1]);
 			applySchema(keyArr, valueArr);

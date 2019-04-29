@@ -1,9 +1,9 @@
-package com.kaltura.vo
+package com.vidiun.vo
 {
-	import com.kaltura.vo.KalturaJobData;
+	import com.vidiun.vo.VidiunJobData;
 
 	[Bindable]
-	public dynamic class KalturaFlattenJobData extends KalturaJobData
+	public dynamic class VidiunFlattenJobData extends VidiunJobData
 	{
 override public function getUpdateableParamKeys():Array
 		{

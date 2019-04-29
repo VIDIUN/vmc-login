@@ -1,8 +1,8 @@
-package com.kaltura.vo
+package com.vidiun.vo
 {
-	import com.kaltura.vo.BaseFlexVo;
+	import com.vidiun.vo.BaseFlexVo;
 	[Bindable]
-	public dynamic class KalturaSystemPartnerConfiguration extends BaseFlexVo
+	public dynamic class VidiunSystemPartnerConfiguration extends BaseFlexVo
 	{
 		public var host : String;
 
@@ -18,11 +18,11 @@ package com.kaltura.vo
 
 		public var rtmpUrl : String;
 
-		public var storageDeleteFromKaltura : Boolean;
+		public var storageDeleteFromVidiun : Boolean;
 
 		public var storageServePriority : int = int.MIN_VALUE;
 
-		public var kmcVersion : int = int.MIN_VALUE;
+		public var vmcVersion : int = int.MIN_VALUE;
 
 		public var enableAnalyticsTab : Boolean;
 
@@ -39,9 +39,9 @@ public function getUpdateableParamKeys():Array
 			arr.push('liveStreamEnabled');
 			arr.push('moderateContent');
 			arr.push('rtmpUrl');
-			arr.push('storageDeleteFromKaltura');
+			arr.push('storageDeleteFromVidiun');
 			arr.push('storageServePriority');
-			arr.push('kmcVersion');
+			arr.push('vmcVersion');
 			arr.push('enableAnalyticsTab');
 			arr.push('enableSilverLight');
 			return arr;
